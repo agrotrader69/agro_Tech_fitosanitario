@@ -47,7 +47,7 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto min-h-screen bg-slate-50 p-4 font-sans space-y-4">
       <header className="bg-emerald-700 text-white p-4 rounded-xl text-center shadow">
-        <h1 className="text-xl font-bold">AgroTech Móvil</h1>
+        <h1 className="text-xl font-bold">AgroTech Fitosanitario</h1>
       </header>
 
       <div className="bg-white p-4 rounded-xl shadow space-y-2">
@@ -71,17 +71,20 @@ export default function App() {
 
       <div className="bg-white p-4 rounded-xl shadow text-center space-y-3">
         {imagenUrl ? (
-          <img src={imagenUrl} className="w-full h-32 object-cover rounded" alt="Muestra" />
+          <div className="relative">
+            <img src={imagenUrl} className="w-full h-32 object-cover rounded" alt="Muestra" />
+            <button onClick={() => setImagenUrl(null)} className="absolute top-1 right-1 bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold">🗑️ Cambiar</button>
+          </div>
         ) : (
-          <label className="block border-2 border-dashed p-6 rounded cursor-pointer bg-slate-50">
-            <span className="text-xs text-slate-500 block">📸 Hacer Foto</span>
+          <label className="block border-2 border-dashed p-6 rounded cursor-pointer bg-slate-50 hover:bg-slate-100">
+            <span className="text-xs text-slate-500 block">📸 Hacer Foto / Subir Imagen</span>
             <input type="file" accept="image/*" capture="environment" onChange={capturarImagen} className="hidden" />
           </label>
         )}
         <button onClick={ejecutarAnalisisReal} className="w-full bg-emerald-600 text-white p-3 rounded font-bold text-sm shadow">Escanear Cultivo</button>
       </div>
 
-      {loading && <p className="text-center text-xs text-slate-500">Consultando datos...</p>}
+      {loading && <p className="text-center text-xs text-slate-500 animate-pulse">Consultando datos...</p>}
 
       {resultado && !loading && (
         <div className="space-y-3">
@@ -91,9 +94,9 @@ export default function App() {
             <p className="text-xs text-slate-400">Cultivo: {resultado.cultivo}</p>
           </div>
           <div className="bg-white p-4 rounded-xl shadow space-y-2">
-            <h3 className="text-xs font-bold text-slate-700">Clima ({resultado.clima.fuente})</h3>
+            <h3 className="text-xs font-bold text-slate-700">Clima Local</h3>
             <p className="text-xs text-slate-600">Temp: {resultado.clima.temp} | Hum: {resultado.clima.humedad} | Viento: {resultado.clima.viento}</p>
-            <a href={municipioSeleccionado?.url_historico} target="_blank" rel="noreferrer" className="block text-center bg-slate-700 text-white p-2 rounded text-xs font-bold">📊 Ver Históricos</a>
+            <a href={municipioSeleccionado?.url_historico} target="_blank" rel="noreferrer" className="block text-center bg-slate-700 text-white p-2 rounded text-xs font-bold">📊 Ver Históricos ({municipioSeleccionado?.red})</a>
           </div>
         </div>
       )}
